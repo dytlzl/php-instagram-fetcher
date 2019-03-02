@@ -16,10 +16,10 @@ class instagram{
         $post_data = array(
             'shortcode' => $array['shortcode'],
             'typename' => $array['__typename'],
-            'text' => $array["edge_media_to_caption"]["edges"][0]["node"]["text"],
-            'timestamp' => $array["taken_at_timestamp"],
-            'date' => date('Y年n月j日 H:i', $array["taken_at_timestamp"]),
-            'display_url' => $array["display_url"]
+            'text' => $array['edge_media_to_caption']['edges'][0]['node']['text'],
+            'timestamp' => $array['taken_at_timestamp'],
+            'date' => date('Y年n月j日 H:i', $array['taken_at_timestamp']),
+            'display_url' => $array['display_url']
         );
         $post_data += $this->fetch_media($post_data['typename'], $post_data['shortcode']);
         return $post_data;
@@ -39,7 +39,7 @@ class instagram{
         $sidecar = array();
         $edges = $array_json['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'];
         foreach($edges as $value){
-            $sidecar[] = ($value["node"]["display_url"]);
+            $sidecar[] = ($value['node']['display_url']);
         }
         return array('sidecar' => $sidecar);
     }
@@ -54,7 +54,7 @@ class instagram{
     }
     public function main(){
         $array_json = $this->fetch_json($this->url);
-        $edges = $array_json["entry_data"]["ProfilePage"][0]["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"];
+        $edges = $array_json['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges'];
         foreach($edges as $value){
             $this->posts_data[] = $this->fetch_post($value['node']);
         }
